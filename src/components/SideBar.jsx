@@ -11,7 +11,6 @@ function SideBar() {
 
   return (
     <div className="w-64 bg-gradient-to-b from-gray-900 via-slate-800 to-gray-900 text-gray-100 h-screen shadow-2xl border-r border-gray-700/50 relative overflow-hidden">
-      
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-10 -left-10 w-20 h-20 bg-blue-500/10 rounded-full blur-xl"></div>
@@ -39,16 +38,18 @@ function SideBar() {
         <Link
           to="/dashboard"
           className={`mb-2 px-4 py-3 flex items-center rounded-lg transition-all duration-300 ease-in-out group ${
-            isActive("/dashboard") 
-              ? "bg-gradient-to-r from-blue-600/30 to-purple-600/30 text-white border border-blue-500/30 shadow-lg backdrop-blur-sm" 
+            isActive("/dashboard")
+              ? "bg-gradient-to-r from-blue-600/30 to-purple-600/30 text-white border border-blue-500/30 shadow-lg backdrop-blur-sm"
               : "text-gray-300 hover:bg-gray-800/50 hover:text-white hover:border-gray-600/50 border border-transparent"
           }`}
         >
-          <div className={`p-2 rounded-lg mr-3 transition-all duration-300 ${
-            isActive("/dashboard") 
-              ? "bg-blue-500/20 text-blue-400" 
-              : "text-gray-400 group-hover:bg-gray-700/50 group-hover:text-gray-300"
-          }`}>
+          <div
+            className={`p-2 rounded-lg mr-3 transition-all duration-300 ${
+              isActive("/dashboard")
+                ? "bg-blue-500/20 text-blue-400"
+                : "text-gray-400 group-hover:bg-gray-700/50 group-hover:text-gray-300"
+            }`}
+          >
             <svg
               className="w-5 h-5"
               fill="none"
@@ -73,16 +74,18 @@ function SideBar() {
         <Link
           to="/customer"
           className={`mb-2 px-4 py-3 flex items-center rounded-lg transition-all duration-300 ease-in-out group ${
-            isActive("/customer") 
-              ? "bg-gradient-to-r from-blue-600/30 to-purple-600/30 text-white border border-blue-500/30 shadow-lg backdrop-blur-sm" 
+            isActive("/customer")
+              ? "bg-gradient-to-r from-blue-600/30 to-purple-600/30 text-white border border-blue-500/30 shadow-lg backdrop-blur-sm"
               : "text-gray-300 hover:bg-gray-800/50 hover:text-white hover:border-gray-600/50 border border-transparent"
           }`}
         >
-          <div className={`p-2 rounded-lg mr-3 transition-all duration-300 ${
-            isActive("/customer") 
-              ? "bg-blue-500/20 text-blue-400" 
-              : "text-gray-400 group-hover:bg-gray-700/50 group-hover:text-gray-300"
-          }`}>
+          <div
+            className={`p-2 rounded-lg mr-3 transition-all duration-300 ${
+              isActive("/customer")
+                ? "bg-blue-500/20 text-blue-400"
+                : "text-gray-400 group-hover:bg-gray-700/50 group-hover:text-gray-300"
+            }`}
+          >
             <svg
               className="w-5 h-5"
               fill="none"
@@ -107,16 +110,18 @@ function SideBar() {
         <Link
           to="/bills"
           className={`mb-2 px-4 py-3 flex items-center rounded-lg transition-all duration-300 ease-in-out group ${
-            isActive("/bills") 
-              ? "bg-gradient-to-r from-blue-600/30 to-purple-600/30 text-white border border-blue-500/30 shadow-lg backdrop-blur-sm" 
+            isActive("/bills")
+              ? "bg-gradient-to-r from-blue-600/30 to-purple-600/30 text-white border border-blue-500/30 shadow-lg backdrop-blur-sm"
               : "text-gray-300 hover:bg-gray-800/50 hover:text-white hover:border-gray-600/50 border border-transparent"
           }`}
         >
-          <div className={`p-2 rounded-lg mr-3 transition-all duration-300 ${
-            isActive("/bills") 
-              ? "bg-blue-500/20 text-blue-400" 
-              : "text-gray-400 group-hover:bg-gray-700/50 group-hover:text-gray-300"
-          }`}>
+          <div
+            className={`p-2 rounded-lg mr-3 transition-all duration-300 ${
+              isActive("/bills")
+                ? "bg-blue-500/20 text-blue-400"
+                : "text-gray-400 group-hover:bg-gray-700/50 group-hover:text-gray-300"
+            }`}
+          >
             <svg
               className="w-5 h-5"
               fill="none"
@@ -141,16 +146,18 @@ function SideBar() {
         <Link
           to="/books"
           className={`mb-2 px-4 py-3 flex items-center rounded-lg transition-all duration-300 ease-in-out group ${
-            isActive("/books") 
-              ? "bg-gradient-to-r from-blue-600/30 to-purple-600/30 text-white border border-blue-500/30 shadow-lg backdrop-blur-sm" 
+            isActive("/books")
+              ? "bg-gradient-to-r from-blue-600/30 to-purple-600/30 text-white border border-blue-500/30 shadow-lg backdrop-blur-sm"
               : "text-gray-300 hover:bg-gray-800/50 hover:text-white hover:border-gray-600/50 border border-transparent"
           }`}
         >
-          <div className={`p-2 rounded-lg mr-3 transition-all duration-300 ${
-            isActive("/books") 
-              ? "bg-blue-500/20 text-blue-400" 
-              : "text-gray-400 group-hover:bg-gray-700/50 group-hover:text-gray-300"
-          }`}>
+          <div
+            className={`p-2 rounded-lg mr-3 transition-all duration-300 ${
+              isActive("/books")
+                ? "bg-blue-500/20 text-blue-400"
+                : "text-gray-400 group-hover:bg-gray-700/50 group-hover:text-gray-300"
+            }`}
+          >
             <svg
               className="w-5 h-5"
               fill="currentColor"
@@ -165,13 +172,51 @@ function SideBar() {
             <div className="ml-auto w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
           )}
         </Link>
+
+        <Link
+          to="/help"
+          className={`mb-2 px-4 py-3 flex items-center rounded-lg transition-all duration-300 ease-in-out group ${
+            isActive("/help")
+              ? "bg-gradient-to-r from-blue-600/30 to-purple-600/30 text-white border border-blue-500/30 shadow-lg backdrop-blur-sm"
+              : "text-gray-300 hover:bg-gray-800/50 hover:text-white hover:border-gray-600/50 border border-transparent"
+          }`}
+        >
+          <div
+            className={`p-2 rounded-lg mr-3 transition-all duration-300 ${
+              isActive("/help")
+                ? "bg-blue-500/20 text-blue-400"
+                : "text-gray-400 group-hover:bg-gray-700/50 group-hover:text-gray-300"
+            }`}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+          </div>
+          <span className="font-medium">Help</span>
+          {isActive("/help") && (
+            <div className="ml-auto w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+          )}
+        </Link>
       </nav>
 
       {/* Footer section */}
       <div className="absolute bottom-4 left-4 right-4">
         <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-lg p-3">
           <p className="text-xs text-gray-400 text-center">Admin Panel</p>
-          <p className="text-xs text-blue-400 text-center font-medium">v1.0.0</p>
+          <p className="text-xs text-blue-400 text-center font-medium">
+            v1.0.0
+          </p>
         </div>
       </div>
     </div>

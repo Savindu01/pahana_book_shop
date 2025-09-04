@@ -8,6 +8,7 @@ import Bills from "./pages/Bills";
 import Bookshop from "./pages/BookShop";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
+import Help from "./pages/Help";
 
 function App() {
   return (
@@ -49,6 +50,16 @@ function App() {
             </Layout>
           }
         />
+
+           <Route
+          path="/help"
+          element={
+            <Layout>
+              <Help />
+            </Layout>
+          }
+        />
+      
       </Routes>
     </Router>
   );
