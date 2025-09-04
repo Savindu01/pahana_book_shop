@@ -15,29 +15,10 @@ import {
 function AdminBillingSystem() {
   // State management
   const [customers, setCustomers] = useState([]);
+  const [availableItems, setAvailableItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [itemsLoading, setItemsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const [availableItems] = useState([
-    {
-      id: 1,
-      name: "Premium Service Package",
-      price: 299.99,
-      category: "Services",
-    },
-    {
-      id: 2,
-      name: "Monthly Subscription",
-      price: 29.99,
-      category: "Subscriptions",
-    },
-    { id: 3, name: "Setup Fee", price: 99.0, category: "Fees" },
-    { id: 4, name: "Consultation Hour", price: 150.0, category: "Services" },
-    { id: 5, name: "Additional License", price: 49.99, category: "Licenses" },
-    { id: 6, name: "Priority Support", price: 199.99, category: "Services" },
-    { id: 7, name: "Data Storage (1TB)", price: 19.99, category: "Storage" },
-    { id: 8, name: "Custom Integration", price: 499.99, category: "Services" },
-  ]);
 
   const [currentStep, setCurrentStep] = useState(1);
   const [customerSearch, setCustomerSearch] = useState("");
@@ -68,9 +49,41 @@ function AdminBillingSystem() {
     }
   };
 
-  // Fetch customers on component mount
+  // Fetch items from API
+  const fetchItems = async () => {
+    setItemsLoading(true);
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/v1/item/get-all-items"
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      
+      // Transform API data to match our expected format
+      const formattedItems = data.map(item => ({
+        id: item.itemId,
+        name: item.itemName,
+        price: item.itemPrice,
+        category: item.description,
+        quantity: item.quantity,
+        code: item.itemCode
+      }));
+      
+      setAvailableItems(formattedItems);
+    } catch (err) {
+      console.error("Error fetching items:", err);
+      // If API fails, we'll keep the default items as fallback
+    } finally {
+      setItemsLoading(false);
+    }
+  };
+
+  // Fetch customers and items on component mount
   useEffect(() => {
     fetchCustomers();
+    fetchItems();
   }, []);
 
   // Filter customers based on search
@@ -92,7 +105,8 @@ function AdminBillingSystem() {
   const filteredItems = availableItems.filter(
     (item) =>
       item.name.toLowerCase().includes(itemSearch.toLowerCase()) ||
-      item.category.toLowerCase().includes(itemSearch.toLowerCase())
+      (item.category && item.category.toLowerCase().includes(itemSearch.toLowerCase())) ||
+      (item.code && item.code.toLowerCase().includes(itemSearch.toLowerCase()))
   );
 
   // Add item to bill
@@ -434,12 +448,26 @@ function AdminBillingSystem() {
                   <h2 className="text-2xl font-bold text-white">
                     Add Items to Bill
                   </h2>
-                  <button
-                    onClick={() => setCurrentStep(1)}
-                    className="text-gray-400 hover:text-white flex items-center"
-                  >
-                    ← Back to Customer
-                  </button>
+                  <div className="flex items-center space-x-3">
+                    <button
+                      onClick={fetchItems}
+                      disabled={itemsLoading}
+                      className="px-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 disabled:bg-gray-700 transition duration-200 flex items-center space-x-2 border border-blue-500/30 text-sm"
+                    >
+                      {itemsLoading ? (
+                        <Loader className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Search className="w-4 h-4" />
+                      )}
+                      <span>{itemsLoading ? "Loading..." : "Refresh Items"}</span>
+                    </button>
+                    <button
+                      onClick={() => setCurrentStep(1)}
+                      className="text-gray-400 hover:text-white flex items-center"
+                    >
+                      ← Back to Customer
+                    </button>
+                  </div>
                 </div>
 
                 {selectedCustomer && (
@@ -470,32 +498,54 @@ function AdminBillingSystem() {
                       />
                     </div>
 
-                    <div className="space-y-3 max-h-96 overflow-y-auto">
-                      {filteredItems.map((item) => (
-                        <div
-                          key={item.id}
-                          className="flex items-center justify-between p-4 border border-gray-700 rounded-xl hover:bg-gray-700/50 transition-colors"
-                        >
-                          <div>
-                            <h4 className="font-semibold text-white">
-                              {item.name}
-                            </h4>
-                            <p className="text-sm text-gray-400">
-                              {item.category}
-                            </p>
-                            <p className="font-bold text-blue-400">
-                              {formatCurrency(item.price)}
-                            </p>
-                          </div>
-                          <button
-                            onClick={() => addItemToBill(item)}
-                            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition duration-200 border border-blue-500/30"
+                    {itemsLoading && (
+                      <div className="flex justify-center py-8">
+                        <Loader className="w-8 h-8 animate-spin text-blue-500" />
+                      </div>
+                    )}
+
+                    {!itemsLoading && (
+                      <div className="space-y-3 max-h-96 overflow-y-auto">
+                        {filteredItems.map((item) => (
+                          <div
+                            key={item.id}
+                            className="flex items-center justify-between p-4 border border-gray-700 rounded-xl hover:bg-gray-700/50 transition-colors"
                           >
-                            <Plus className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
+                            <div>
+                              <h4 className="font-semibold text-white">
+                                {item.name}
+                              </h4>
+                              <p className="text-sm text-gray-400">
+                                {item.category}
+                              </p>
+                              <p className="font-bold text-blue-400">
+                                {formatCurrency(item.price)}
+                              </p>
+                            </div>
+                            <button
+                              onClick={() => addItemToBill(item)}
+                              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition duration-200 border border-blue-500/30"
+                            >
+                              <Plus className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {!itemsLoading && filteredItems.length === 0 && (
+                      <div className="text-center py-8">
+                        <ShoppingCart className="h-12 w-12 mx-auto text-gray-500" />
+                        <h3 className="mt-4 text-lg font-medium text-white">
+                          No items found
+                        </h3>
+                        <p className="mt-1 text-gray-400">
+                          {itemSearch
+                            ? "Try adjusting your search criteria."
+                            : "No items available. Please check your API connection."}
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   {/* Selected Items */}
